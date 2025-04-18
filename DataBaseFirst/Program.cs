@@ -9,7 +9,8 @@ namespace DataBaseFirst
             // select
             using (Hospital5Context db = new Hospital5Context())
             {
-                var doctors = db.Doctors.Where(d => d.Salary > 20000).ToList();
+                //var doctors = db.Doctors.Where(d => d.Salary > 20000).ToList();
+                var doctors = db.Doctors.ToList();
                 foreach (var doctor in doctors)
                 {
                     Console.WriteLine(doctor);

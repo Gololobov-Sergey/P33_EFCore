@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace DataBaseFirst.Model;
 
@@ -33,9 +34,10 @@ public partial class Hospital5Context : DbContext
             .AddJsonFile("appsettings.json")
             .Build();
 
+
         optionsBuilder.UseSqlServer(config.GetConnectionString("DefaultConnection"));
 
-
+        optionsBuilder.LogTo(Console.WriteLine, LogLevel.Information);
     }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
