@@ -15,6 +15,9 @@ namespace BookStore.Models
         [MaxLength(50)]
         public string? Name { get; set;}
         public string? Surname { get; set; }
-        public string? FullName { get;}
+
+        //public string? FullName { get;}
+
+        public List<Book> Books { get; set; } = new();
     }
 }

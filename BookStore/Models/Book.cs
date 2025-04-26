@@ -9,25 +9,31 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BookStore.Models
 {
-    [Table("books")]
-    [Index("Pages")]
+    //[Table("books")]
+    //[Index("Pages")]
     public class Book
     {
-        [Column("id_book")]
-        [Key]
+        //[Column("id_book")]
+        //[Key]
         //[DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id { get; set; }
         
         [Required]
         public string? Title { get; set; }
         
-        [NotMapped]
+        //[NotMapped]
         public string Description { get; set; }
 
         
         public int Pages { get; set; }
 
         public DateOnly PublishDate { get; set; } = DateOnly.FromDateTime(DateTime.Now);
+
+
+        public int AuthorInfoKey { get; set; }
+
+        //[ForeignKey("AuthorInfoKey")]
+        public Author? Author { get; set; }
 
     }
 }
