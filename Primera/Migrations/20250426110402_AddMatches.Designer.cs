@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Primera;
 
@@ -11,9 +12,11 @@ using Primera;
 namespace Primera.Migrations
 {
     [DbContext(typeof(DBContext))]
-    partial class DBContextModelSnapshot : ModelSnapshot
+    [Migration("20250426110402_AddMatches")]
+    partial class AddMatches
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -96,9 +99,24 @@ namespace Primera.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Draws")
+                        .HasColumnType("int");
+
+                    b.Property<int>("GoalsConceded")
+                        .HasColumnType("int");
+
+                    b.Property<int>("GoalsScored")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Losses")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Wins")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 

@@ -24,6 +24,8 @@ namespace Primera
         }
 
         public virtual DbSet<Team> Teams { get; set; }
+        public virtual DbSet<Player> Players { get; set; }
+        public virtual DbSet<Match> Matches { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -40,6 +42,23 @@ namespace Primera
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Team>()
+                .HasMany(t => t.Players)
+                .WithOne(p => p.Team)
+                .HasForeignKey(p => p.TeamId);
+
+            modelBuilder.Entity<Match>()
+                .HasOne(m => m.Team1)
+                .WithMany(m => m.Matches1)
+                .HasForeignKey(m => m.Team1Id)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<Match>()
+                .HasOne(m => m.Team2)
+                .WithMany(m => m.Matches2)
+                .HasForeignKey(m => m.Team2Id)
+                .OnDelete(DeleteBehavior.NoAction);
+
 
         }
     }
