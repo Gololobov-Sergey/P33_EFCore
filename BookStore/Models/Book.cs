@@ -35,5 +35,9 @@ namespace BookStore.Models
         //[ForeignKey("AuthorInfoKey")]
         public Author? Author { get; set; }
 
+        public List<Genre> Genres { get; set; } = [];
+
+        public List<BookGenres> BookGenres { get; set; } = [];
+
     }
 }

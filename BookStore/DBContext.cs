@@ -14,8 +14,8 @@ namespace BookStore
     {
         public DBContext()
         {
-            Database.EnsureDeleted();
-            Database.EnsureCreated();
+            //Database.EnsureDeleted();
+            //Database.EnsureCreated();
         }
 
         public DBContext(DbContextOptions<DBContext> options)
@@ -25,6 +25,8 @@ namespace BookStore
 
         public virtual DbSet<Book> Books { get; set; }
         public virtual DbSet<Author> Authors { get; set; }
+        public virtual DbSet<Profile> Profiles { get; set; }
+        public virtual DbSet<Genre> Genres { get; set; }
 
 
 
@@ -69,12 +71,35 @@ namespace BookStore
 
                 ////entity.Property(e => e.PublishDate).HasColumnType("date").HasDefaultValue(DateOnly.FromDateTime(DateTime.Now));
 
-                //entity.HasData(new Book[]
-                //{
-                //    new Book { Id = 1, AuthorId=1, Title = "Book 1", Description="Description 1", Pages = 100, PublishDate = DateOnly.FromDateTime(DateTime.Now) },
-                //    new Book { Id = 2, AuthorId=2, Title = "Book 2", Description="Description 2", Pages = 200, PublishDate = DateOnly.FromDateTime(DateTime.Now) },
-                //    new Book { Id = 3, AuthorId=1, Title = "Book 3", Description="Description 3", Pages = 300, PublishDate = DateOnly.FromDateTime(DateTime.Now) }
-                //});
+                //entity
+                //    .HasMany(e => e.Genres)
+                //    .WithMany(e => e.Books)
+                //    .UsingEntity(j => j.ToTable("BookGenres"));
+
+
+                entity
+                    .HasMany(e => e.Genres)
+                    .WithMany(e => e.Books)
+                    .UsingEntity<BookGenres>(
+                        j => j
+                            .HasOne(e => e.Genre)
+                            .WithMany(e => e.BookGenres)
+                            .HasForeignKey(e => e.GenreId)
+                            .OnDelete(DeleteBehavior.Cascade)
+                            .HasConstraintName("FK_BookGenres_Genre"),
+                        j => j
+                            .HasOne(e => e.Book)
+                            .WithMany(e => e.BookGenres)
+                            .HasForeignKey(e => e.BookId)
+                            .OnDelete(DeleteBehavior.Cascade)
+                            .HasConstraintName("FK_BookGenres_Book"),
+                        j =>
+                        {
+                            j.HasKey(e => new { e.BookId, e.GenreId });
+                            j.Property(e => e.Percent).HasDefaultValue(0);
+                            j.ToTable("BookGenres");
+                            j.ToTable(t => t.HasCheckConstraint("CK_BookGenres_Percent", "[Percent] >= 0 AND [Percent] <= 100"));
+                        });
 
 
                 entity
@@ -83,6 +108,34 @@ namespace BookStore
                     .HasForeignKey(e => e.AuthorInfoKey)
                     .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_Book_Author");
+
+                entity.HasData(new Book
+                {
+                    Id = 1,
+                    Title = "C# in Depth",
+                    Pages = 500,
+                    PublishDate = DateOnly.FromDateTime(DateTime.Now),
+                    AuthorInfoKey = 1,
+                    Description = "Description 1"
+                },
+                new Book
+                {
+                    Id = 2,
+                    Title = "C# in Depth 2",
+                    Pages = 500,
+                    PublishDate = DateOnly.FromDateTime(DateTime.Now),
+                    AuthorInfoKey = 2,
+                    Description = "Description 2"
+                },
+                new Book
+                {
+                    Id = 3,
+                    Title = "C# in Depth 3",
+                    Pages = 500,
+                    PublishDate = DateOnly.FromDateTime(DateTime.Now),
+                    AuthorInfoKey = 1,
+                    Description = "Description 3"
+                });
 
             });
 
@@ -93,12 +146,36 @@ namespace BookStore
 
                 //entity.Property(p => p.Name).HasMaxLength(50).IsRequired();
 
-                //entity.HasData(new Author[]
-                //{
-                //    new Author { Id = 1, Name = "Author 1", Surname = "Surname 1" },
-                //    new Author { Id = 2, Name = "Author 2", Surname = "Surname 2" },
-                //    new Author { Id = 3, Name = "Author 3", Surname = "Surname 3" }
-                //});
+                entity.HasData(new Author
+                {
+                    Id = 1,
+                    Name = "Jon",
+                    Surname = "Skeet",
+                    ProfileId = 1
+                },
+                new Author
+                {
+                    Id = 2,
+                    Name = "Mark",
+                    Surname = "Miller",
+                    ProfileId = 2
+                });
+            });
+
+            modelBuilder.Entity<Profile>(entity =>
+            {
+                entity.HasData(new Profile
+                {
+                    Id = 1,
+                    Login = "admin",
+                    Password = "admin"
+                },
+                new Profile
+                {
+                    Id = 2,
+                    Login = "user",
+                    Password = "user"
+                });
             });
         }
     }

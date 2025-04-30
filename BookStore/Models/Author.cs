@@ -18,6 +18,9 @@ namespace BookStore.Models
 
         //public string? FullName { get;}
 
+        public int ProfileId { get; set; }
+        public Profile Profile { get; set; }
+
         public List<Book> Books { get; set; } = new();
     }
 }
