@@ -14,8 +14,8 @@ namespace BookStore
     {
         public DBContext()
         {
-            //Database.EnsureDeleted();
-            //Database.EnsureCreated();
+            Database.EnsureDeleted();
+            Database.EnsureCreated();
         }
 
         public DBContext(DbContextOptions<DBContext> options)
@@ -29,6 +29,9 @@ namespace BookStore
         public virtual DbSet<Genre> Genres { get; set; }
 
 
+        public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<Employee> Employees { get; set; }
+        public virtual DbSet<Manager> Managers { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -45,6 +48,10 @@ namespace BookStore
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            //modelBuilder.Entity<User>().UseTphMappingStrategy();
+            //modelBuilder.Entity<User>().UseTptMappingStrategy();
+            modelBuilder.Entity<User>().UseTpcMappingStrategy();
+
             modelBuilder.Entity<Book>(entity =>
             {
                 //entity.ToTable("books");

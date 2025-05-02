@@ -152,20 +152,42 @@ namespace BookStore
                 //db.SaveChanges();
 
 
-                var books = db.Books
-                    .Include(b => b.BookGenres)
-                        .ThenInclude(bg => bg.Genre)
-                    .Where(b => b.BookGenres.Any(bg => bg.Genre.Name == "Programming"))
-                    .ToList();
+                //var books = db.Books
+                //    .Include(b => b.BookGenres)
+                //        .ThenInclude(bg => bg.Genre)
+                //    .Where(b => b.BookGenres.Any(bg => bg.Genre.Name == "Programming"))
+                //    .ToList();
 
-                foreach (var book in books)
+                //foreach (var book in books)
+                //{
+                //    Console.WriteLine($"Book: {book.Title}, Pages: {book.Pages}, PublishDate: {book.PublishDate}");
+                //    foreach (var bookGenre in book.BookGenres)
+                //    {
+                //        Console.WriteLine($" - Genre: {bookGenre.Genre.Name}, Percent: {bookGenre.Percent}");
+                //    }
+                //}
+
+
+                User user = new User
                 {
-                    Console.WriteLine($"Book: {book.Title}, Pages: {book.Pages}, PublishDate: {book.PublishDate}");
-                    foreach (var bookGenre in book.BookGenres)
-                    {
-                        Console.WriteLine($" - Genre: {bookGenre.Genre.Name}, Percent: {bookGenre.Percent}");
-                    }
-                }
+                    Name = "Admin"
+                };
+
+                Employee employee = new Employee
+                {
+                    Name = "Employee",
+                    Salary = 1000
+                };
+
+                Manager manager = new Manager
+                {
+                    Name = "Manager",
+                    Salary = 2000,
+                    Departments = "IT"
+                };
+
+                db.Users.AddRange(user, employee, manager);
+                db.SaveChanges();
 
             }
         }

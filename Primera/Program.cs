@@ -124,17 +124,30 @@ namespace Primera
 
             //AddMatches();
 
-            using (var db = new DBContext())
-            {
+            //using (var db = new DBContext())
+            //{
 
-                var matches = db.Matches
-                    .Include(m => m.Team1)
-                    .Include(m => m.Team2)
-                    .Where(m => m.Date == new DateOnly(2025, 4, 7))
-                    .ToList();
-                foreach (var match in matches)
+            //    var matches = db.Matches
+            //        .Include(m => m.Team1)
+            //        .Include(m => m.Team2)
+            //        .Where(m => m.Date == new DateOnly(2025, 4, 7))
+            //        .ToList();
+            //    foreach (var match in matches)
+            //    {
+            //        Console.WriteLine(match);
+            //    }
+            //}
+
+
+
+            using (DBContext db = new())
+            {
+                string city = "Madrid";
+                //var teams = db.Teams.FromSqlRaw($"SELECT * FROM GetTeamsFromCity('{city}')").ToList();
+                var teams = db.GetTeamsFromCity(city).ToList();
+                foreach (var team in teams)
                 {
-                    Console.WriteLine(match);
+                    Console.WriteLine(team);
                 }
             }
         }

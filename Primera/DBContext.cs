@@ -27,6 +27,11 @@ namespace Primera
         public virtual DbSet<Player> Players { get; set; }
         public virtual DbSet<Match> Matches { get; set; }
 
+        public IQueryable<Team> GetTeamsFromCity(string city)
+        {
+            return FromExpression(() => GetTeamsFromCity(city));
+        }
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -42,6 +47,8 @@ namespace Primera
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.HasDbFunction(() => GetTeamsFromCity(default!));
+
             modelBuilder.Entity<Team>()
                 .HasMany(t => t.Players)
                 .WithOne(p => p.Team)

@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Primera", "Primera\Primera.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookStore", "BookStore\BookStore.csproj", "{508D7C3C-59F6-4F02-89AA-5F59E4F9E33B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Student_Dapper", "Student_Dapper\Student_Dapper.csproj", "{A1E6F981-5A2B-42E5-B3B8-A7A760E1D4E5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{508D7C3C-59F6-4F02-89AA-5F59E4F9E33B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{508D7C3C-59F6-4F02-89AA-5F59E4F9E33B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{508D7C3C-59F6-4F02-89AA-5F59E4F9E33B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1E6F981-5A2B-42E5-B3B8-A7A760E1D4E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1E6F981-5A2B-42E5-B3B8-A7A760E1D4E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1E6F981-5A2B-42E5-B3B8-A7A760E1D4E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1E6F981-5A2B-42E5-B3B8-A7A760E1D4E5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
