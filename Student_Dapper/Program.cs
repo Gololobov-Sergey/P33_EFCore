@@ -3,12 +3,16 @@ using Dapper;
 using Z.Dapper.Plus;
 
 using Student_Dapper.Models;
+using System.Data;
+using System.ComponentModel;
 
 namespace Student_Dapper
 {
     internal class Program
     {
 
+
+        
         static string connectionString = "Data Source=TAURUS\\SQLEXPRESS;Initial Catalog=Student-Dapper;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False";
         static void Main(string[] args)
         {
@@ -63,10 +67,71 @@ namespace Student_Dapper
 
 
 
-            string sql = "UPDATE Student SET GroupId = @groupId WHERE Id = @id";
-            var row = connection.Execute(sql, new {groupId = 2, id = 4});
-            Console.WriteLine($"Updated {row} rows");
+            //string sql = "UPDATE Student SET GroupId = @groupId WHERE Id = @id";
+            //var row = connection.Execute(sql, new {groupId = 2, id = 4});
+            //Console.WriteLine($"Updated {row} rows");
 
+
+            //string sql = "select * " +
+            //             "from Student S " +
+            //             "join [Group] G on S.GroupId=G.Id ";
+
+            //var students = connection.Query<Student, Group, Student>(sql, (student, group) =>
+            //    {
+            //        student.Group = group;
+            //        return student;
+            //    }, 
+            //    splitOn: "Id").ToList();
+
+            //foreach (var student in students)
+            //{
+            //    Console.WriteLine($"{student.Id} {student.Name} {student.BirthDay} {student.Group.Name}");
+            //}
+
+
+
+
+            string sql = "select * " +
+                "from Student S " +
+                "join [Group] G on S.GroupId=G.Id " +
+                "join Curator C on G.CuratorId=C.Id";
+
+            var students = connection.Query<Student, Group, Curator, Student>(sql, (student, group, curator) =>
+                {
+                    student.Group = group;
+                    group.Curator = curator;
+                    return student;
+                },
+                splitOn: "Id").ToList();
+
+            var stud = students.Select(s => new
+            {
+                s.Id,
+                s.Name,
+                BirthDay = s.BirthDay.ToShortDateString(),
+                GroupName = s.Group.Name,
+                CuratorName = s.Group.Curator.Name
+            }).ToList();
+
+
+            DataTable dataTable = new DataTable();
+            dataTable = stud.ToDataTable();
+            dataTable.Print();
+
+            //foreach (var student in students)
+            //{
+            //    Console.WriteLine($"{student.Id} {student.Name} {student.BirthDay.ToShortDateString()} {student.Group.Name} {student.Group.Curator.Name}");
+            //}
+
+
+
+            //string sql = "select * from Student S";
+            //var reader = connection.ExecuteReader(sql);
+
+            //DataTable dataTable = new DataTable();
+            //dataTable.Load(reader);
+
+            //dataTable.PrintList();  
 
         }
     }

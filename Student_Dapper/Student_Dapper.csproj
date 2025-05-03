@@ -13,4 +13,10 @@
     <PackageReference Include="Z.Dapper.Plus" Version="7.5.11" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="PrintData">
+      <HintPath>..\..\DLL\PrintData.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

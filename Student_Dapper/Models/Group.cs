@@ -13,6 +13,10 @@ namespace Student_Dapper.Models
 
         public List<Student> Students { get; set; } = new List<Student>();
 
+        public Curator Curator { get; set; }
+
+        public int CuratorId { get; set; }
+
 
         public override string ToString()
         {
